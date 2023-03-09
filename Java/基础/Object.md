@@ -10,8 +10,10 @@
 * [hashCode()](#head6)
 * [toString()](#head7)
 * [clone()](#head8)
+  * [深拷贝、浅拷贝](#head9)
 
 ## <span id="head1">概述
+
 Object是Java类库中的一个特殊类，也是所有类的父类。也就是说，Java允许把任何类型的对象赋给Object类型的变量。当一个类被定义后，如果没有指定继承的父类，那么默认父类就是 Object 类。因此，以下两个类表示的含义是一样的。
 
 ```java
@@ -29,7 +31,7 @@ public final native Class<?> getClass()
 public native int hashCode()
 //比较两个对象是否相等
 public boolean equals(Object obj)
-//创建与该对象的类相同的对象
+//创建并返回一个对象的拷贝（浅拷贝）
 protected native Object clone() throws CloneNotSupportedException
 //返回该对象的字符串表示
 public String toString()
@@ -154,6 +156,151 @@ System.out.println(d); //输出 Demo@15db9742
 
 ## <span id="head8">clone()
 
+clone()方法会返回该对象的浅拷贝，对象内属性引用的对象置灰拷贝引用地址，而不会将引用的对象重新分配，相对应的深拷贝则会连引用的对象也重新创建。
+
+>clone规则
+>
+>* 基本类型：拷贝其值
+>* 对象：拷贝其地址引用
+
+返回的是Object对象，我们必须强转才能得到我们需要的类型。clone()方法在Object中是Protected，因此不能在类外访问，克隆一个对象，需要对clone重写。
+
+```java
+class Student implements Cloneable {
+    private int a;
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+}
+
+Student a = new Student();
+try {
+    Student b = (Student) a.clone();
+} catch (Exception e) {
+    // TODO: handle exception
+}
+```
+
+需注意到clone声明会抛出CloneNotSupportException异常，如果你调用了某个类的clone()方法，而这个类没有实现Cloneable接口，那么就会抛出此异常。
+
+有意思的，Cloneable接口内部没有任何抽象方法，它是一个标记接口。我们所重写的clone()是Object内部的方法，Cloneable接口只是规定，如果一个类没有实现Cloneable接口又调用了clone()方法，就会抛出CloneNotSupportException异常。
+
+```java
+public interface Cloneable {
+}
+```
+
+### <span id="head9">深拷贝、浅拷贝
+
+上面提到，clone()是一种浅拷贝方式创建的对象，与之相对的，就是深拷贝。
+
+* 浅拷贝：原对象和拷贝对象不同，但对象内的成员变量引用的地址相同
+* 深拷贝：原对象和拷贝对象不同，且对象内的成员变量引用的地址也不同。
+
+```java
+//浅拷贝
+class Student implements Cloneable{
+    Bage bage = new Bage();
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+}
+
+class Bage {
+    int num = 2;
+}
+
+//输出
+Student a = new Student();
+try {
+    Student b = (Student) a.clone();
+    a.bage.num = 3;//改变a中成员变量的内布值
+    System.out.println(b.bage.num); //输出  3；b也随之改变
+} catch (Exception e) {
+    // TODO: handle exception
+}
+```
+
+那么如何实现深拷贝呢，有两种方法：
+
+* 成员变量也实现Cloneable接口，重写clone()方法
+
+```java
+class Student implements Cloneable {
+    Bage bage = new Bage();
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Student result = (Student) super.clone();
+        //手动将成员变量也进行clone()赋值
+        result.bage = (Bage) bage.clone();
+        return result;
+    }
+}
+
+class Bage implements Cloneable {
+    int num = 2;
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+}
+
+//输出
+Student a = new Student();
+try {
+    Student b = (Student) a.clone();
+    a.bage.num = 3;//改变a中成员变量的内布值
+    System.out.println(b.bage.num); //输出  2；b不随a改变而改变
+} catch (Exception e) {
+    // TODO: handle exception
+}
+```
+
+* 序列化与反序列化
+
+```java
+//实现serializable接口
+class Student implements Serializable {
+    Bage bage = new Bage();
+
+    public Student myClone() {
+        Student result = null;
+        try {
+            // 将对象序列化到流里
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+            objectOutputStream.writeObject(this);
+            // 将流反序列化为对象
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+            result = (Student) objectInputStream.readObject();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return result;
+    }
+}
+//实现serializable接口
+class Bage implements Serializable {
+    int num = 2;
+}
+
+//输出
+Student a = new Student();
+try {
+    Student b = a.myClone();
+    a.bage.num = 3;//改变a中成员变量的内布值
+    System.out.println(b.bage.num); //输出  2；b不随a改变而改变
+} catch (Exception e) {
+    // TODO: handle exception
+}
+```
 
 ## 参考
 
