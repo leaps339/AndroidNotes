@@ -35,11 +35,11 @@ TCP 字节流与 UDP 数据报的区别，如果对应到实际编程中，则�
 
 这就是字节流：应用程序对数据的发送和接收是没有边界的。
 
-![tcp 字节流服务](/计算机网络/img/tcp字节流服务.png)
+![tcp 字节流服务](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/tcp字节流服务.png)
 
 与之不同的是 UDP，一种基于数据报的协议。发送端应用程序每执行一次写操作，UDP 模块就将其封装称一个 UDP 数据报并发送之。接收端必须及时针对每一个 UDP 数据执行读操作，否则就会丢包。并且，如果用户没有指定足够的应用程序缓冲区来读取 UDP 数据，则 UDP 数据将被截断。
 
-![udp 数据报服务](/计算机网络/img/udp数据报服务.png)
+![udp 数据报服务](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/udp数据报服务.png)
 
 ### TCP 数据流的控制
 
@@ -78,7 +78,7 @@ TCP 要保证所有的包都可以到达，必须要有确认重传机制。
 
 快重传示意图如下：
 
-![快重传示意图](/计算机网络/img/快重传示意图.webp)
+![快重传示意图](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/快重传示意图.webp)
 
 接收方收到了 M1 和 M2 后都分别发出了确认。假如接收方没有收到 M3 但接着收到了 M4. 显然，接收方不能确认 M4，因为 M3 是收到的失序报文段（按照顺序的 M3 还没有收到）。
 
@@ -92,7 +92,7 @@ TCP 必须要解决的可靠性传输以及包乱序的问题，因此，TCP 必
 
 所以，TCP 引入了一些技术和设计来做网络流控，Sliding Window（滑动窗口）是其中一个技术。在 TCP 头部信息中讲过有一个字段 Window，又叫 Advertised-Window，这个字段就是接收端告诉发送端自己还有多少缓冲区可以接收数据。于是发送端就可以根据这个接收端的处理能力来发送数据，而不会导致接收端处理不过来。首先看一下 TCP 缓冲区的一些数据结构：
 
-![tcp缓冲区数据结构](/计算机网络/img/tcp缓冲区数据结构.png)
+![tcp缓冲区数据结构](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/tcp缓冲区数据结构.png)
 
 由图中可以看到：
 
@@ -103,7 +103,7 @@ TCP 必须要解决的可靠性传输以及包乱序的问题，因此，TCP 必
 
 下面是一张滑动窗口示意图：
 
-![滑动窗口示意图](/计算机网络/img/滑动窗口示意图.png)
+![滑动窗口示意图](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/滑动窗口示意图.png)
 
 在发送缓存区中，可以将所有数据分为四部分：
 
@@ -122,13 +122,13 @@ TCP 必须要解决的可靠性传输以及包乱序的问题，因此，TCP 必
 
 下面是滑动后的示意图（收到 36 的 Ack，并发出了 46-51 的字节）：
 
-![滑动窗口滑动示意图](/计算机网络/img/滑动窗口滑动示意图.png)
+![滑动窗口滑动示意图](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/滑动窗口滑动示意图.png)
 
 >累积确认概念：TCP 并不是每一个报文段都会回复一个 ACK，可能会对两个报文段发送一个 ACK，也可能会对多个报文段发送 1 个 ACK，这称为累积确认。比如说发送方有 1/2/3 3 个报文段，先发送了 2，3 两个报文段，但是接收方期望收到 1 报文段，这个时候 2/3 报文段就只能放在缓存中等待报文 1 的空洞被填上，如果报文 1 一直不来，报文 2/3 也将被丢弃，如果报文 1 来了，那么会发送一个 ACK 对第三个报文段进行确认，就代表对这三个报文段全部进行了确认。
 
 下面是完整的发送端与接收端数据传输的图示：
 
-![tcp 数据传输模型](/计算机网络/img/tcpswflow.png)
+![tcp 数据传输模型](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/tcpswflow.png)
 
 **zero wondow**
 
@@ -173,7 +173,7 @@ TCP 通过 Sliding Window（滑动窗口）来做流量控制（Flow Control）�
 
 所以，如果网速很快的话，ACK 也返回的很快，RTT 也会很短。那么这个慢启动一点也不慢。
 
-![慢启动过程](/计算机网络/img/慢启动过程.png)
+![慢启动过程](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/慢启动过程.png)
 
 ##### 拥塞避免
 
@@ -186,7 +186,7 @@ TCP 通过 Sliding Window（滑动窗口）来做流量控制（Flow Control）�
 - 将 ssthresh 的值更新未发生拥塞时 cwnd 时的一半
 - 将 cwnd 值减少为 1，并重新开始执行慢启动算法
 
-![早期慢启动、拥塞避免模型](/计算机网络/img/早期慢启动、拥塞避免模型.png)
+![早期慢启动、拥塞避免模型](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/早期慢启动、拥塞避免模型.png)
 
 ##### 快速重传
 
@@ -201,7 +201,7 @@ TCP 通过 Sliding Window（滑动窗口）来做流量控制（Flow Control）�
 - 把 ssthresh 阈值更新为未发生拥塞时 cwnd 时的一半
 - 并不是执行慢启动算法，考虑到如果网络出现拥塞就不会收到好几个重复确认，因此发送方现在认为网络可能没有出现拥塞。所以此时不执行慢开始算法，而是将 cwnd 设置为 ssthresh 的大小，然后执行拥塞避免算法。
 
-![tcp reno 拥塞控制](/计算机网络/img/tcp_reno拥塞控制.png)
+![tcp reno 拥塞控制](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/tcp_reno拥塞控制.png)
 
 ## UDP
 

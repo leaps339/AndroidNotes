@@ -2,7 +2,7 @@
 
 在Android开发过程中，我们通过Gradle命令，启动一个构建任务，最终会生成产物“APK”文件。常规APK的构建流程如下
 
-![](/Android/img/Android应用模块构建流程.png)
+![](	https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/Android应用模块构建流程.png)
 
 经典的Android应用构建流程如图所示，主要分为以下几步：
 
@@ -16,7 +16,7 @@
 ## 编译打包详细流程
 
 下面是一个详细的打包流程图
-![](/Android/img/详细的构建流程.png)
+![](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/详细的构建流程.png)
 
 ### 编译资源
 
@@ -122,11 +122,11 @@ DEX文件大致结构：
 
 在AGP3.4.0版本中，R8把desugaring、shrinking、obfuscating、optimizing和dexing都合并到一部执行。在AGP3.4.0版本以前比那一流程如下：
 
-![](/Android/img/AGP3.4.0之前编译流程.webp)
+![](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/AGP3.4.0之前编译流程.webp)
 
 在AGP3.4.0之后编译流程如下：
 
-![](/Android/img/AGP3.4.0之后编译流程.webp)
+![](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/AGP3.4.0之后编译流程.webp)
 
 ### 生成APK包
 

@@ -4,7 +4,7 @@
 
 Socket是应用层与TCP/IP协议族通信的中间软件抽象层，它是一组接口。在设计模式中，Socket其实就是一个门面模式，把复杂的TCP/IP协议族隐藏在Socket接口后面，对用户来说，一组简单的接口就是全部，让Socket去组织数据，以符合指定的协议。
 
-![socket抽象层](/计算机网络/img/socket抽象层.png)
+![socket抽象层](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/socket抽象层.png)
 
 >Socket起源于UNIX，在UNIX一切皆文件的思想下，进程间通信就被冠名为**文件描述符（file descriptor）**，Socket是一种“打开--读/写--关闭”模式的实现，服务器和客户端各自维护一个“文件”，在建立连接打开后，可以向文件写入内容供对方读取或者读取对方内容，通讯结束时关闭文件。
 
@@ -12,7 +12,7 @@ Socket是应用层与TCP/IP协议族通信的中间软件抽象层，它是一�
 
 Socket保证了不同计算机之间的通信，也就是网络通信。应用层使用Socket接口进行进程间的通信，一般我们将主动接收消息的一段称为服务器端，主动发送消息的一端称为客户端。服务端先初始化Socket，然后与端口绑定（bind），对端口进行监听（listen），调用accept阻塞，等待客户端连接。客户端那边也初始化一个socket，然后通过连接服务器（connect）
 
-![socket通信过程](/计算机网络/img/socket通信过程.png)
+![socket通信过程](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/socket通信过程.png)
 
 客户端过程：创建Socket，连接服务器，将Socket与远程主机连接（只有 TCP 才有“连接”的概念，一些 Socket 比如 UDP、ICMP 和 ARP 没有“连接”的概念），发送数据，读取响应数据。至数据交换完毕，关闭连接，结束TCP对话。
 
@@ -66,7 +66,7 @@ Socket客户端与服务端进行连接与释放链接需要经过三次握手�
 
 TCP是面向字节流的，但传送的数据单元却是报文段（Segment），包含首部和数据部分。数据部分主要放置真正需要传输的原始数据，而报文段首部，包含的各个字段的作用代表着其全部功能。TCP报文段首部前20个字节是固定的，后面有40字节是根据需要而增加的。如果把TCP报文首部放大来看的话：
 
-![tcp报文段首部结构](/计算机网络/img/tcp_segment_header.png)
+![tcp报文段首部结构](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/tcp_segment_header.png)
 
 需要注意的是，TCP的包是没有IP地址的，那是IP层上的事。但是有源端口和目标端口。
 
@@ -160,7 +160,7 @@ TCP的可靠性，是建立在【每一个数据报文都需要确认收到】�
 
 网络上的传输是没有连接的，包括TCP也是一样的。而TCP所谓的“连接”，其实只不过是在通讯的双方维护一个“连接状态”，让它看上去好像有连接一样。
 
-![TCP协议状态机](/计算机网络/img/tcp协议状态机.png)
+![TCP协议状态机](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/tcp协议状态机.png)
 
 上半部分主要为三次握手时的状态转换，下半部分主要为四次挥手时的状态转换。
 
@@ -178,7 +178,7 @@ TCP的可靠性，是建立在【每一个数据报文都需要确认收到】�
 
 ### TCP的三次握手与四次挥手
 
-![tcp握手、挥手流程](/计算机网络/img/tcp_open_close.jpg)
+![tcp握手、挥手流程](https://blog-1256965811.cos.ap-guangzhou.myqcloud.com/img/tcp_open_close.jpg)
 
 **TCP三次握手**
 
